@@ -12369,6 +12369,13 @@ Basic Type: ${(_c = spec === null || spec === void 0 ? void 0 : spec.bType) !== 
       ${fcdaCount !== 0 ? x$1 `<span slot="meta">${fcdaCount}</span>` : T$1}
     </mwc-list-item>`;
     }
+    renderReadOnlyIcon(forceIcon) {
+        return x$1 `${this.readOnlyView && (!this.subscriberView || forceIcon)
+            ? x$1 `<mwc-icon class="read-only-icon" title="Read-only view"
+          >lock</mwc-icon
+        >`
+            : ''}`;
+    }
     renderFCDAListTitle() {
         const menuClasses = {
             'title-element': true,
@@ -12390,13 +12397,13 @@ Basic Type: ${(_c = spec === null || spec === void 0 ? void 0 : spec.bType) !== 
                 ? 'read-only'
                 : ''}"
               title="${selectedFcdaTitle}"
-              >${selectedFcdaTitle}</span
+              >${selectedFcdaTitle}${this.renderReadOnlyIcon(false)}</span
             >`
             : x$1 `<span
               class="title-element text ${this.readOnlyView ? 'read-only' : ''}"
               >${this.controlTag === 'SampledValueControl'
                 ? 'Select SV Publisher'
-                : 'Select GOOSE Publisher'}</span
+                : 'Select GOOSE Publisher'}${this.renderReadOnlyIcon(false)}</span
             >`}
         <mwc-icon-button
           id="filterFcdaIcon"
@@ -12454,7 +12461,7 @@ Basic Type: ${(_c = spec === null || spec === void 0 ? void 0 : spec.bType) !== 
         </mwc-menu>
         <mwc-icon-button
           id="sortFcdaIcon"
-          title="Sort')}"
+          title="Sort"
           icon="sort"
           @click=${() => {
             if (!this.sortMenuFcdaUI.open)
@@ -12934,11 +12941,11 @@ Basic Type: ${(_c = spec === null || spec === void 0 ? void 0 : spec.bType) !== 
                 ? 'read-only'
                 : ''}"
             title="${selectedExtRefTitle}"
-            >${selectedExtRefTitle}</span
+            >${selectedExtRefTitle}${this.renderReadOnlyIcon(true)}</span
           >`
             : x$1 `<span
             class="title-element text ${this.readOnlyView ? 'read-only' : ''}"
-            >Select Subscriber Input</span
+            >Select Subscriber Input${this.renderReadOnlyIcon(true)}</span
           >`}
       <mwc-icon-button
         id="saveSubscriberExtRefToMarkdown"
@@ -13481,7 +13488,7 @@ Basic Type: ${(_c = spec === null || spec === void 0 ? void 0 : spec.bType) !== 
         id="switchControlType"
         class="title-element"
         ?on=${this.controlTag === 'GSEControl'}
-        title="Change between GOOSE and Sampled Value publishers"
+        title="Switch between GOOSE and Sampled Value publishers"
         @click=${() => {
             if (this.controlTag === 'GSEControl') {
                 this.controlTag = 'SampledValueControl';
@@ -13626,9 +13633,10 @@ SubscriberLaterBinding.styles = i$9 `
       text-overflow: ellipsis;
     }
 
-    .read-only.text {
-      font-weight: 400;
-      color: var(--mdc-theme-secondary, #018786);
+    .read-only-icon {
+      margin: 10px;
+      vertical-align: middle;
+      color: var(--mdc-theme-on-surface, black);
     }
 
     h1 .selected {
